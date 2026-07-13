@@ -1,25 +1,44 @@
-# eclipse
-bin
+# Eclipse
+bin/
 *.launch
-.settings
-.metadata
+.settings/
+.metadata/
 .classpath
 .project
 
-# idea
-out
+# IntelliJ IDEA
+out/
 *.ipr
 *.iws
 *.iml
-.idea
+.idea/
 
-# gradle
-build
-.gradle
+# Gradle
+build/
+.gradle/
+gradle-app.setting
+*.gradle
 
-# kate
+# Kate
 *.kate-swp
 
-# other
-eclipse
-run
+# OS specific
+.DS_Store
+Thumbs.db
+*.tmp
+*.log
+
+# Forge / Minecraft
+run/
+eclipse/
+src/main/resources/META-INF/MANIFEST.MF
+
+# Backup files
+*.bak
+*.swp
+*~
+
+# Other
+*.class
+*.jar
+!gradle-wrapper.jar
