@@ -20,7 +20,7 @@ This addon requires the following mods:
 ## Installation
 
 1. Ensure all dependencies are installed.
-2. Download the `.jar` file from the [Releases](https://github.com/TheVoidedOnes/TFC-Nuclear-Tech-Addon/releases/tag/Release) page.
+2. Download the `.jar` file from the [Releases](https://github.com/TheVoidedOnes/TFC-Nuclear-Tech-Addon/releases/tag/Releases) page.
 3. Place the downloaded `.jar` into your Minecraft `mods` folder.
 4. Launch the game.
 
