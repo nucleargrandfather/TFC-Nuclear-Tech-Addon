@@ -1,5 +1,5 @@
 # TFC-Nuclear-Tech-Addon
-A compatibility addon that bridges the gap between **HBM's Nuclear Tech Mod Community Edition** and **TerraFirmaCraft** for Minecraft 1.12.2.
+A compability addon that bridges the gap between **HBM's Nuclear Tech Mod Community Edition** and **TerraFirmaCraft** for Minecraft 1.12.2.
 
 **It's ready for survival**, but has some issues.
 
