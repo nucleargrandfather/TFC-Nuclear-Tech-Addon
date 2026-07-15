@@ -26,6 +26,7 @@ hbmmat.elasticcopper=Упругая медь
 hbmmat.blacksteel=Черная Сталь
 hbmmat.weakredsteel=Красная Слабая Сталь
 hbmmat.weakbluesteel=Синяя Слабая Сталь
+hbmfluid.limewater=Известняковая вода
 item.ball_fireclay.name=Шамот
 tfc.types.metal.bismuth=Молибден
 tfc.types.metal.bismuth_bronze=Упругая медь

@@ -1,18 +1,16 @@
 package com.voided.tfcnuclear;
 
-import com.hbm.items.ModItems;
-import com.voided.tfcnuclear.compat.hbm.ConfigOverwriteHandler;
+import com.hbm.inventory.fluid.Fluids;
+import com.voided.tfcnuclear.compat.tfc.ConfigOverwriteHandler;
 import com.voided.tfcnuclear.compat.hbm.ItemRenamer;
+import com.voided.tfcnuclear.inventory.fluid.TFCNuclearFluids;
 import com.voided.tfcnuclear.inventory.handler.*;
 import com.voided.tfcnuclear.inventory.recipes.*;
 import com.voided.tfcnuclear.inventory.material.TFCNuclearMats;
 import com.voided.tfcnuclear.proxy.CommonProxy;
 import com.voided.tfcnuclear.world.OreSpawn.HBMOreSpawn;
-import com.voided.tfcnuclear.world.OreSpawn.TFCConfigOverwriteHandler;
 import com.voided.tfcnuclear.world.OreSpawn.TFCOreSpawn;
 import net.dries007.tfc.api.recipes.heat.HeatRecipe;
-import net.minecraft.init.Items;
-import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -36,12 +34,23 @@ public class TFCNuclear {
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event) {
         TFCNuclearMats.init();
+        Fluids.additionalListeners.add(new TFCNuclearFluids());
+
         proxy.registerModels();
         HBMOreSpawn.generate(event);
         TFCOreSpawn.generate(event);
         TFCOreSpawn.clean(event);
 
+
         OreDictHandler.registerOreDict();
+        new Thread(() -> {
+            try {
+                Thread.sleep(5000); // 5 секунд задержки
+                ConfigOverwriteHandler.applyConfigOverwrites();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }).start();
     }
 
     @Mod.EventHandler
@@ -60,9 +69,8 @@ public class TFCNuclear {
             }
         }).start();
 
-        MinecraftForge.EVENT_BUS.register(new ConfigOverwriteHandler());
-        MinecraftForge.EVENT_BUS.register(new TFCConfigOverwriteHandler());
         MinecraftForge.EVENT_BUS.register(new ItemRenamer());
+
 
         CraftingRecipes.addRecipes();
         FurnaceRecipes.addRecipes();

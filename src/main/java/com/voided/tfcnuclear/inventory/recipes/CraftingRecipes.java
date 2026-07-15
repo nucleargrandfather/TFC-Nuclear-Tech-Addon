@@ -203,6 +203,12 @@ public class CraftingRecipes {
             new ResourceLocation("hbm", "machine_wood_burner"),
             new ResourceLocation("hbm", "machine_electric_furnace_off"),
             new ResourceLocation("hbm", "gold_ingot"),
+            new ResourceLocation("hbm", "ball_fireclay_1"),
+            new ResourceLocation("hbm", "ball_fireclay_2"),
+            new ResourceLocation("hbm", "brick_concrete_2"),
+            new ResourceLocation("hbm", "brick_concrete_3"),
+            new ResourceLocation("hbm", "ducrete_brick_2"),
+            new ResourceLocation("hbm", "ducrete_brick_3"),
 
             // TFC
             new ResourceLocation("tfc", "vanilla/flint_and_steel"),
@@ -466,6 +472,25 @@ public class CraftingRecipes {
                 .shape("WWW/ D /WWW",
                         'W', ore("ingotWroughtIron"),
                         'D', ore("ingotDoubleWroughtIron")).register();
+        new RecipeBuilder("brick_concrete_2", item("hbm:brick_concrete"))
+                .shape(" C /CMC/ C ",
+                        'C', item("hbm:concrete_smooth"),
+                        'M', ore("mortar")).register();
+        new RecipeBuilder("brick_concrete_3", item("hbm:brick_concrete"))
+                .shape(" C /CMC/ C ",
+                        'C', item("hbm:concrete"),
+                        'M', ore("mortar")).register();
+        new RecipeBuilder("ducrete_brick_2", item("hbm:ducrete_brick"))
+                .shape("MDM/DLD/MDM",
+                        'D', item("hbm:ducrete_smooth"),
+                        'M', ore("mortar"),
+                        'L', ore("plateLead")).register();
+        new RecipeBuilder("ducrete_brick_3", item("hbm:ducrete_brick"))
+                .shape("MDM/DLD/MDM",
+                        'D', item("hbm:ducrete"),
+                        'M', ore("mortar"),
+                        'L', ore("plateLead")).register();
+
     }
 
     public static void addRecipes() {

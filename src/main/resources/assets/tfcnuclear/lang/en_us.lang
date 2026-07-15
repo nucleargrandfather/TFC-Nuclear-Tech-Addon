@@ -26,6 +26,7 @@ hbmmat.elasticcopper=Elastic Copper
 hbmmat.blacksteel=Black Steel
 hbmmat.weakredsteel=Red Weak Steel
 hbmmat.weakbluesteel=Blue Weak Steel
+hbmfluid.limewater=Limewater
 item.ball_fireclay.name=Grog
 tfc.types.metal.bismuth=Molybdenum
 tfc.types.metal.bismuth_bronze=Elastic Copper

@@ -10,6 +10,7 @@ import com.hbm.inventory.recipes.loader.GenericRecipe;
 import com.hbm.inventory.recipes.loader.GenericRecipes;
 import com.hbm.items.ModItems;
 import net.minecraft.init.Blocks;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -17,6 +18,8 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import static com.hbm.inventory.OreDictManager.*;
+import static com.hbm.inventory.fluid.Fluids.fromName;
+import static net.dries007.tfc.objects.fluids.FluidsTFC.LIMEWATER;
 
 @Mixin(value = ChemicalPlantRecipes.class, remap = false)
 public abstract class MixinChemicalPlantRecipes extends GenericRecipes<GenericRecipe> {
@@ -25,13 +28,19 @@ public abstract class MixinChemicalPlantRecipes extends GenericRecipes<GenericRe
     @Inject(method = "registerDefaults", at = @At("RETURN"))
     private void onRegisterDefaults(CallbackInfo ci) {
 
+        com.hbm.inventory.fluid.FluidType limewater = Fluids.fromName("LIMEWATER");
+
+        if (limewater == Fluids.NONE) {
+            System.out.println("[TFC Nuclear] ОШИБКА: LIMEWATER не найдена в HBM!");
+            return;
+        }
+
         ChemicalPlantRecipes.INSTANCE.removeRecipeByName("chem.aggregate");
         ChemicalPlantRecipes.INSTANCE.removeRecipeByName("chem.concrete");
         ChemicalPlantRecipes.INSTANCE.removeRecipeByName("chem.concreteasbestos");
         ChemicalPlantRecipes.INSTANCE.removeRecipeByName("chem.ducrete");
         ChemicalPlantRecipes.INSTANCE.removeRecipeByName("chem.liquidconk");
         ChemicalPlantRecipes.INSTANCE.removeRecipeByName("chem.asphalt");
-
 
 
         this.register(new GenericRecipe("chem.aggregate_new").setupNamed(320, 500).setPools(GenericRecipes.POOL_PREFIX_DISCOVER + ".stone")
@@ -57,7 +66,13 @@ public abstract class MixinChemicalPlantRecipes extends GenericRecipes<GenericRe
                 .inputItems(new RecipesCommon.OreDictStack("gravel", 2), new RecipesCommon.OreDictStack("sand", 6))
                 .inputFluids(new FluidStack(Fluids.BITUMEN, 1_000))
                 .outputItems(new ItemStack(ModBlocks.asphalt, 16)));
-
-
+        this.register(new GenericRecipe("chem.limewater").setup(200, 100)
+                .inputItems(new RecipesCommon.OreDictStack("dustFlux", 1))
+                .inputFluids(new FluidStack(Fluids.WATER, 500))
+                .outputFluids(new FluidStack(limewater, 500)));
+        this.register(new GenericRecipe("chem.mortar").setup(120, 100)
+                .inputItems(new RecipesCommon.OreDictStack("sand", 1))
+                .inputFluids(new FluidStack(limewater, 100))
+                .outputItems(new ItemStack(Item.getByNameOrId("tfc:mortar"), 16)));
     }
 }

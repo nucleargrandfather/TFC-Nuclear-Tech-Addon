@@ -7,7 +7,9 @@
   "compatibilityLevel": "JAVA_8",
   "plugin": "com.voided.tfcnuclear.overwrite_contents.mixin.MixinConfigPlugin",
   "mixins": [
+    "handler.MixinArcFurnaceRecipesGetOutput",
     "handler.MixinBloomeryRecipes",
+    "handler.MixinCrucibleRecipesGetSmelting",
     "handler.MixinDefaultRecipes",
     "handler.MixinHBMBlastFurnaceGetRecipe",
     "handler.MixinHBMCraftingManager",
@@ -44,8 +46,6 @@
     "recipes.MixinRotaryFurnaceRecipes",
     "recipes.MixinShredderRecipes",
     "recipes.MixinSILEXRecipes",
-    "handler.MixinArcFurnaceRecipesGetOutput",
-    "handler.MixinCrucibleRecipesGetSmelting",
     "world.MixinDepthDeposit",
     "world.MixinWorldGenMinableNonCascadeDisableGneiss",
     "world.MixinWorldUtil"
