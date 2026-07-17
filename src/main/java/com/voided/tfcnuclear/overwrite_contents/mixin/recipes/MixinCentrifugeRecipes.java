@@ -1,5 +1,6 @@
 package com.voided.tfcnuclear.overwrite_contents.mixin.recipes;
 
+import com.hbm.blocks.ModBlocks;
 import com.hbm.inventory.RecipesCommon;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.inventory.recipes.CentrifugeRecipes;
@@ -7,7 +8,6 @@ import com.hbm.items.ItemEnums;
 import com.hbm.items.ModItems;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -30,10 +30,6 @@ public abstract class MixinCentrifugeRecipes {
     @Shadow
     public static void removeRecipe(RecipesCommon.AStack key) {}
 
-    /**
-     * Инжектируемся в конец метода registerDefaults()
-     * чтобы удалить и добавить свои рецепты
-     */
     @Inject(
             method = "registerDefaults",
             at = @At("TAIL"),
@@ -44,22 +40,17 @@ public abstract class MixinCentrifugeRecipes {
         addCustomRecipes();
     }
 
-    /**
-     * Удаление всех рецептов с ванильными рудами
-     */
     private void removeVanillaRecipes() {
-        // Список всех ванильных руд для удаления
+
         String[] vanillaOres = {
                 "oreCoal", "oreIron", "oreGold", "oreRedstone", "oreLapis",
                 "oreDiamond", "oreEmerald"
         };
 
-        // Дополнительные руды из HBM
         String[] hbmOres = {
-                "oreSaltpeter", "oreSulfur", "oreCopper", "oreLead", "oreAluminum", "oreLignite"
+                "oreSaltpeter", "oreSulfur", "oreCopper", "oreLead", "oreAluminum", "oreLignite", "oreTrixite"
         };
 
-        // Удаляем все руды
         for (String ore : vanillaOres) {
             removeByOreDict(ore);
         }
@@ -67,33 +58,10 @@ public abstract class MixinCentrifugeRecipes {
             removeByOreDict(ore);
         }
 
+        removeByComparableStack(new RecipesCommon.ComparableStack(ModBlocks.ore_tikite));
+        removeByComparableStack(new RecipesCommon.ComparableStack(ModItems.crystal_trixite));
     }
 
-    /**
-     * Удаление всех рецептов с бедрок рудами
-     */
-    private void removeBedrockOreRecipes() {
-        HashMap<RecipesCommon.AStack, ItemStack[]> toRemove = new HashMap<>();
-
-        for (Map.Entry<RecipesCommon.AStack, ItemStack[]> entry : recipes.entrySet()) {
-            RecipesCommon.AStack key = entry.getKey();
-            if (key instanceof ComparableStack) {
-                ComparableStack stack = (ComparableStack) key;
-                String itemId = Item.REGISTRY.getNameForObject(stack.item).toString();
-                if (itemId.equals("hbm:bedrock_ore_new") || itemId.equals("hbm:bedrock_ore")) {
-                    toRemove.put(key, entry.getValue());
-                }
-            }
-        }
-
-        for (RecipesCommon.AStack key : toRemove.keySet()) {
-            recipes.remove(key);
-        }
-    }
-
-    /**
-     * Добавление кастомных рецептов
-     */
     private void addCustomRecipes() {
         recipes.put(new RecipesCommon.OreDictStack("tfcRedstone"), new ItemStack[] {
                 new ItemStack(Items.REDSTONE, 3),
@@ -132,59 +100,26 @@ public abstract class MixinCentrifugeRecipes {
                 new ItemStack(Blocks.GRAVEL, 1) });
     }
 
-    // ========== Вспомогательные методы для удаления ==========
-
     private void removeByOreDict(String dictKey) {
-        HashMap<RecipesCommon.AStack, ItemStack[]> toRemove = new HashMap<>();
+        RecipesCommon.OreDictStack keyToRemove = null;
 
         for (Map.Entry<RecipesCommon.AStack, ItemStack[]> entry : recipes.entrySet()) {
             RecipesCommon.AStack key = entry.getKey();
             if (key instanceof RecipesCommon.OreDictStack) {
                 RecipesCommon.OreDictStack oreDict = (RecipesCommon.OreDictStack) key;
                 if (oreDict.name.equals(dictKey)) {
-                    toRemove.put(key, entry.getValue());
+                    keyToRemove = oreDict;
+                    break;
                 }
             }
         }
 
-        for (RecipesCommon.AStack key : toRemove.keySet()) {
-            recipes.remove(key);
+        if (keyToRemove != null) {
+            recipes.remove(keyToRemove);
         }
     }
 
-    private void removeByItem(Item item) {
-        removeByItem(item, -1);
-    }
-
-    private void removeByItem(Item item, int meta) {
-        String itemName = Item.REGISTRY.getNameForObject(item).toString();
-        removeByItemId(itemName, meta);
-    }
-
-    private void removeByItem(String itemId) {
-        removeByItemId(itemId, -1);
-    }
-
-    private void removeByItemId(String itemId, int meta) {
-        HashMap<RecipesCommon.AStack, ItemStack[]> toRemove = new HashMap<>();
-
-        for (Map.Entry<RecipesCommon.AStack, ItemStack[]> entry : recipes.entrySet()) {
-            RecipesCommon.AStack key = entry.getKey();
-            if (key instanceof ComparableStack) {
-                ComparableStack stack = (ComparableStack) key;
-                String id = Item.REGISTRY.getNameForObject(stack.item).toString();
-                if (id.equals(itemId) && (meta == -1 || stack.meta == meta)) {
-                    toRemove.put(key, entry.getValue());
-                }
-            }
-        }
-
-        for (RecipesCommon.AStack key : toRemove.keySet()) {
-            recipes.remove(key);
-        }
-    }
-
-    private void removeByBlock(String blockId) {
-        removeByItemId(blockId, -1);
+    private void removeByComparableStack(RecipesCommon.ComparableStack comparableStack) {
+        recipes.remove(comparableStack);
     }
 }

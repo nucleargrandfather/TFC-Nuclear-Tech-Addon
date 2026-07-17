@@ -209,6 +209,7 @@ public class CraftingRecipes {
             new ResourceLocation("hbm", "brick_concrete_3"),
             new ResourceLocation("hbm", "ducrete_brick_2"),
             new ResourceLocation("hbm", "ducrete_brick_3"),
+            new ResourceLocation("hbm", "catalyst_clay"),
 
             // TFC
             new ResourceLocation("tfc", "vanilla/flint_and_steel"),

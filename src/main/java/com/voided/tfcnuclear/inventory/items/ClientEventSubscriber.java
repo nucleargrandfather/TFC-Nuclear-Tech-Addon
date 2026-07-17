@@ -19,6 +19,11 @@ public class ClientEventSubscriber {
         registerModel(ModItems.HEMATITE_SLAG);
         registerModel(ModItems.LIMONITE_SLAG);
         registerModel(ModItems.MAGNETITE_SLAG);
+        registerModel(ModItems.GOLD_SLAG);
+        registerModel(ModItems.GALENA_SLAG);
+        registerModel(ModItems.COPPER_SLAG);
+        registerModel(ModItems.FIRED_CATALYST_CLAY);
+        registerModel(ModItems.ACID_ACTIVATED_CLAY);
     }
 
     private static void registerModel(Item item) {

@@ -35,18 +35,23 @@ public class MixinCrucibleRecipes {
                 ));
         instance.register(new CrucibleRecipe("magnetite")
                 .setup(15, new ItemStack(Item.getByNameOrId("tfc:ore/magnetite")))
-                .inputs(new MaterialStack(TFCNuclearMats.MAT_MAGNETITE, n), new MaterialStack(Mats.MAT_FLUORITE, n * 2), new MaterialStack(Mats.MAT_FLUX, n * 3))
+                .inputs(new MaterialStack(TFCNuclearMats.MAT_MAGNETITE, n * 2), new MaterialStack(Mats.MAT_FLUORITE, n * 2), new MaterialStack(Mats.MAT_FLUX, n * 3))
                 .outputs(new MaterialStack(Mats.MAT_IRON, n * 6), new MaterialStack(Mats.MAT_TITANIUM, n * 3), new MaterialStack(Mats.MAT_SLAG, n)
                 ));
         instance.register(new CrucibleRecipe("limonite")
                 .setup(15, new ItemStack(Item.getByNameOrId("tfc:ore/limonite")))
-                .inputs(new MaterialStack(TFCNuclearMats.MAT_LIMONITE, n), new MaterialStack(Mats.MAT_FLUX, n))
+                .inputs(new MaterialStack(TFCNuclearMats.MAT_LIMONITE, n * 2), new MaterialStack(Mats.MAT_FLUX, n))
                 .outputs(new MaterialStack(Mats.MAT_IRON, n * 2),new MaterialStack(Mats.MAT_COBALT, q * 4),new MaterialStack(Mats.MAT_SLAG, n * 3)
                 ));
         instance.register(new CrucibleRecipe("hematite")
                 .setup(15, new ItemStack(Item.getByNameOrId("tfc:ore/hematite")))
-                .inputs(new MaterialStack(Mats.MAT_HEMATITE, n),new MaterialStack(Mats.MAT_SILICON, n * 2), new MaterialStack(Mats.MAT_FLUX, n))
+                .inputs(new MaterialStack(Mats.MAT_HEMATITE, n * 2),new MaterialStack(Mats.MAT_SILICON, n * 2), new MaterialStack(Mats.MAT_FLUX, n))
                 .outputs(new MaterialStack(Mats.MAT_IRON, n * 4), new MaterialStack(Mats.MAT_TUNGSTEN, n * 2), new MaterialStack(Mats.MAT_SLAG, n * 2)
+                ));
+        instance.register(new CrucibleRecipe("malachite")
+                .setup(15, new ItemStack(Item.getByNameOrId("tfc:ore/malachite")))
+                .inputs(new MaterialStack(Mats.MAT_MALACHITE, n * 2),new MaterialStack(Mats.MAT_SILICON, n * 2), new MaterialStack(Mats.MAT_FLUX, n))
+                .outputs(new MaterialStack(Mats.MAT_COPPER, n * 4), new MaterialStack(Mats.MAT_SLAG, n * 2)
                 ));
         instance.register(new CrucibleRecipe("red steel")
                 .setup(10, new ItemStack(Item.getByNameOrId("tfc:metal/ingot/red_steel")))

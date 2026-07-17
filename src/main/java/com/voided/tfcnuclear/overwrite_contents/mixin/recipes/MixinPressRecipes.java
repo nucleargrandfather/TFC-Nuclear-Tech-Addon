@@ -6,6 +6,7 @@ import com.hbm.inventory.RecipesCommon.OreDictStack;
 import com.hbm.items.machine.ItemStamp;
 import com.hbm.util.Tuple.Pair;
 import com.voided.tfcnuclear.compat.hbm.BloomStack;
+import com.voided.tfcnuclear.inventory.items.ModItems;
 import net.dries007.tfc.api.capability.forge.CapabilityForgeable;
 import net.dries007.tfc.api.capability.forge.IForgeableMeasurableMetal;
 import net.dries007.tfc.api.types.Metal;
@@ -95,6 +96,7 @@ public abstract class MixinPressRecipes {
         makeRecipe(ItemStamp.StampType.FLAT, new OreDictStack("fireClay"), new ItemStack(Item.getByNameOrId("tfc:ceramics/unfired/fire_brick"), 4));
         makeRecipe(ItemStamp.StampType.FLAT, new OreDictStack("clay"), new ItemStack(Item.getByNameOrId("tfc:ceramics/unfired/clay_brick"), 4));
         makeRecipe(ItemStamp.StampType.FLAT, new OreDictStack("dustDiamond"), new ItemStack(Item.getByNameOrId("tfc:gem/diamond"), 1, 2));
+        makeRecipe(ItemStamp.StampType.FLAT, new ComparableStack(ModItems.ACID_ACTIVATED_CLAY), new ItemStack(com.hbm.items.ModItems.catalyst_clay));
     }
 
     // Вспомогательный метод для добавления рецепта крицы

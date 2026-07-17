@@ -1,5 +1,6 @@
 package com.voided.tfcnuclear.overwrite_contents.mixin.recipes;
 
+import com.hbm.blocks.ModBlocks;
 import com.hbm.inventory.RecipesCommon;
 import com.hbm.inventory.recipes.SILEXRecipes;
 import com.hbm.items.ModItems;
@@ -32,7 +33,7 @@ public class MixinSILEXRecipes {
             remap = false
     )
     private static void onRegisterHead(CallbackInfo ci) {
-        // Удаляем все 10 оригинальных рецептов HEAUS (0-4 и 5-9)
+
         for (int meta = 0; meta < 10; meta++) {
             RecipesCommon.ComparableStack key = new RecipesCommon.ComparableStack(ModItems.rbmk_pellet_heaus, 1, meta);
             recipes.remove(key);
@@ -47,6 +48,10 @@ public class MixinSILEXRecipes {
     )
     private static void onRegisterReturn(CallbackInfo ci) {
 
+        removeRecipeByComparableStack(new RecipesCommon.ComparableStack(ModItems.crystal_trixite));
+        removeRecipeByComparableStack(new RecipesCommon.ComparableStack(ModBlocks.ore_tikite));
+
+        // Добавляем свой рецепт для гравия
         recipes.put("gravel",
                 new SILEXRecipes.SILEXRecipe(1000, 250, ItemFELCrystal.EnumWavelengths.VISIBLE)
                         .addOut(new ItemStack(Items.FLINT), 80)
@@ -87,5 +92,42 @@ public class MixinSILEXRecipes {
                 recipes.put(new RecipesCommon.ComparableStack(ModItems.rbmk_pellet_heaus, 1, i), recipe);
             }
         }
+    }
+
+    /**
+     * Вспомогательный метод для удаления рецепта по oreDict ключу
+     * @param oreDictKey ключ oreDict (например, "gravel", "ingotUranium" и т.д.)
+     * @return true если рецепт был удален, false если не найден
+     */
+    private static boolean removeRecipeByOreDict(String oreDictKey) {
+        Object keyToRemove = null;
+
+        // Ищем ключ в мапе recipes
+        for (Object key : recipes.keySet()) {
+            if (key instanceof String && key.equals(oreDictKey)) {
+                keyToRemove = key;
+                break;
+            }
+        }
+
+        if (keyToRemove != null) {
+            recipes.remove(keyToRemove);
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Альтернативный метод для удаления рецепта по ComparableStack
+     * @param comparableStack ключ для удаления
+     * @return true если рецепт был удален, false если не найден
+     */
+    private static boolean removeRecipeByComparableStack(RecipesCommon.ComparableStack comparableStack) {
+        if (recipes.containsKey(comparableStack)) {
+            recipes.remove(comparableStack);
+            return true;
+        }
+        return false;
     }
 }

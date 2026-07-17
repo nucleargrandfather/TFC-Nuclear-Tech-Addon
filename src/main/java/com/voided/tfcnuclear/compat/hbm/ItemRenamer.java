@@ -33,15 +33,18 @@ public class ItemRenamer {
         addRename("hbm:pipe", 2600, "hbm_pipe_wrought_iron");
         addRename("hbm:plate_cast", 2600, "hbm_plate_cast_wrought_iron");
         addRename("hbm:plate_welded", 2600, "hbm_plate_welded_wrought_iron");
+        addRename("hbm:stamp_iron_flat", 0, "hbm_stamp_wrought_iron_flat");
+        addRename("hbm:stamp_iron_plate", 0, "hbm_stamp_wrought_iron_plate");
+        addRename("hbm:stamp_iron_wire", 0, "hbm_stamp_wrought_iron_wire");
+        addRename("hbm:stamp_iron_circuit", 0, "hbm_stamp_wrought_iron_circuit");
+        addRename("hbm:stamp_iron_circuit", 0, "hbm_stamp_wrought_iron_circuit");
+
+        addRename("minecraft:iron_ingot", 0, "mc_raw_iron_ingot");
+        addRename("minecraft:iron_block", 0, "mc_raw_iron_block");
+        addRename("minecraft:iron_nugget", 0, "mc_raw_iron_nugget");
 
     }
 
-    /**
-     * Добавляет переименование для конкретной метаданных
-     * @param itemId ID предмета (например, "hbm:plate_copper")
-     * @param meta Метаданные предмета
-     * @param keyPart Базовая часть ключа (будет дополнена префиксом "item.")
-     */
     private static void addRename(String itemId, int meta, String keyPart) {
         String fullKey = itemId + ":" + meta;
         RENAME_MAP.put(fullKey, "item." + keyPart);

@@ -10,6 +10,7 @@ import com.hbm.inventory.recipes.anvil.AnvilRecipes.AnvilOutput;
 import com.hbm.items.ItemEnums;
 import com.hbm.items.ModItems;
 import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
@@ -377,7 +378,7 @@ public class MixinAnvilRecipes {
                         new ComparableStack(Blocks.PISTON, 1),
                         new OreDictStack("boltSteel", 12),
                         new ComparableStack(Item.getByNameOrId("tfc:metal/double_sheet/steel"), 2),
-                        new ComparableStack(ModItems.ingot_firebrick, 4),
+                        new ComparableStack(Items.BRICK, 8),
                 }, new AnvilOutput(new ItemStack(ModBlocks.machine_press))).setTier(2));
         AnvilRecipes.constructionRecipes.add(new AnvilConstructionRecipe(
                 new RecipesCommon.AStack[] {

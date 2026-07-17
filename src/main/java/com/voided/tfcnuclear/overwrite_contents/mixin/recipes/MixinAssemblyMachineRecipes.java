@@ -21,18 +21,12 @@ import static com.hbm.inventory.OreDictManager.DURA;
 @Mixin(AssemblyMachineRecipes.class)
 public class MixinAssemblyMachineRecipes {
 
-    /**
-     * Удаляем рецепты и добавляем кастомные
-     */
     @Inject(method = "registerDefaults", at = @At("TAIL"), remap = false)
     public void modifyRecipes(CallbackInfo ci) {
         removeRecipes();
         addCustomRecipes();
     }
 
-    /**
-     * Удаление рецептов по имени используя встроенный метод removeRecipeByName
-     */
     private void removeRecipes() {
         AssemblyMachineRecipes instance = AssemblyMachineRecipes.INSTANCE;
 
@@ -50,15 +44,9 @@ public class MixinAssemblyMachineRecipes {
             // Используем встроенный метод removeRecipeByName
             instance.removeRecipeByName(recipeName);
             removed++;
-            System.out.println("[MixinAssemblyMachineRecipes] Removed recipe: " + recipeName);
         }
-
-        System.out.println("[MixinAssemblyMachineRecipes] Total removed: " + removed + " recipes");
     }
 
-    /**
-     * Добавление кастомных рецептов
-     */
     private void addCustomRecipes() {
         AssemblyMachineRecipes instance = AssemblyMachineRecipes.INSTANCE;
 

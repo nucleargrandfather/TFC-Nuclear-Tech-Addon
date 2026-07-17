@@ -10,14 +10,11 @@ import net.minecraft.world.World;
 import javax.annotation.Nullable;
 import java.util.List;
 
-/**
- * Базовый класс для шлаков с NBT-количеством
- */
 public abstract class ItemSlagBase extends Item {
 
     protected static final String NBT_KEY = "amount";
-    protected static final int MAX_STACK_SIZE = 4; // Максимум 4 штуки в стаке
-    protected static int MAX_AMOUNT = 800; // Максимум 800 единиц
+    protected static final int MAX_STACK_SIZE = 4;
+    protected static int MAX_AMOUNT = 800;
 
     public ItemSlagBase() {
         super();
@@ -30,15 +27,8 @@ public abstract class ItemSlagBase extends Item {
         int amount = getAmount(stack);
         tooltip.add(TextFormatting.GRAY + "Amount: " + TextFormatting.WHITE + amount + " units");
 
-        // Показываем максимальное количество
-        if (amount >= MAX_AMOUNT) {
-            tooltip.add(TextFormatting.GOLD + "Максимум!");
-        }
     }
 
-    /**
-     * Получить количество из NBT
-     */
     public static int getAmount(ItemStack stack) {
         if (stack.isEmpty()) {
             return 0;
@@ -51,9 +41,6 @@ public abstract class ItemSlagBase extends Item {
         return 0;
     }
 
-    /**
-     * Установить количество в NBT с проверкой на максимум
-     */
     public static void setAmount(ItemStack stack, int amount) {
         if (stack.isEmpty()) {
             return;
@@ -77,9 +64,6 @@ public abstract class ItemSlagBase extends Item {
         stack.setTagCompound(nbt);
     }
 
-    /**
-     * Добавить количество к существующему с проверкой на максимум
-     */
     public static void addAmount(ItemStack stack, int amount) {
         int current = getAmount(stack);
         int newAmount = current + amount;
@@ -92,9 +76,6 @@ public abstract class ItemSlagBase extends Item {
         setAmount(stack, newAmount);
     }
 
-    /**
-     * Проверяет, можно ли объединить два стека
-     */
     public static boolean canCombine(ItemStack stack1, ItemStack stack2) {
         if (stack1.isEmpty() || stack2.isEmpty()) {
             return true;
@@ -112,9 +93,6 @@ public abstract class ItemSlagBase extends Item {
         return (amount1 + amount2) <= MAX_AMOUNT;
     }
 
-    /**
-     * Объединяет два стека в один
-     */
     public static ItemStack combine(ItemStack stack1, ItemStack stack2) {
         if (stack1.isEmpty()) return stack2.copy();
         if (stack2.isEmpty()) return stack1.copy();

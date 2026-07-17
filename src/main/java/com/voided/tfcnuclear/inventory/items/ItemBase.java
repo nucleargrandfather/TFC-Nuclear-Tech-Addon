@@ -8,7 +8,7 @@ import net.minecraft.util.NonNullList;
 public class ItemBase extends Item {
 
     public ItemBase(String name) {
-        setRegistryName(name);
+        setRegistryName("tfcnuclear", name);
         setTranslationKey(name);
         setCreativeTab(CreativeTabs.MATERIALS);
     }

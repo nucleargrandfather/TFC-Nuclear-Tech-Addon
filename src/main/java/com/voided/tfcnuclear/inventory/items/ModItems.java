@@ -15,13 +15,23 @@ public class ModItems {
     public static final Item HEMATITE_SLAG = new ItemHematiteSlag();
     public static final Item LIMONITE_SLAG = new ItemLimoniteSlag();
     public static final Item MAGNETITE_SLAG = new ItemMagnetiteSlag();
+    public static final Item GALENA_SLAG = new ItemGalenaSlag();
+    public static final Item GOLD_SLAG = new ItemGoldSlag();
+    public static final Item COPPER_SLAG = new ItemCopperSlag();
+    public static final Item FIRED_CATALYST_CLAY = new ItemFiredCatalystClay();
+    public static final Item ACID_ACTIVATED_CLAY = new AcidActivatedClay();
 
     @SubscribeEvent
     public static void registerItems(RegistryEvent.Register<Item> event) {
         event.getRegistry().registerAll(
                 HEMATITE_SLAG,
                 LIMONITE_SLAG,
-                MAGNETITE_SLAG
+                MAGNETITE_SLAG,
+                GALENA_SLAG,
+                GOLD_SLAG,
+                COPPER_SLAG,
+                FIRED_CATALYST_CLAY,
+                ACID_ACTIVATED_CLAY
         );
     }
 

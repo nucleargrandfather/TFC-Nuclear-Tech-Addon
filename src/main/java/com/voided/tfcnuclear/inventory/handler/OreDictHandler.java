@@ -64,7 +64,6 @@ public class OreDictHandler {
             {"oreRichMolybdenum", "tfc:ore/bismuth", "2"},
             {"oreSmallMolybdenum", "tfc:ore/small/bismuth", "0"},
 
-            {"ironFlatStamp", "hbm:stamp_iron_flat", "0"},
             {"hbmIngotSteel", "hbm:ingot_steel"},
 
             {"ingotMolybdenum", "tfc:metal/ingot/bismuth"},

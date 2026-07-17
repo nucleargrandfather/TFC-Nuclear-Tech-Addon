@@ -32,7 +32,6 @@ public class FurnaceRecipes {
             // HBM
             new ResourceLocation("hbm", "ingot_copper"),
             new ResourceLocation("hbm", "ingot_lead"),
-            new ResourceLocation("hbm", "chunk_ore"),
             new ResourceLocation("hbm", "ingot_firebrick")
     );
 
@@ -49,6 +48,7 @@ public class FurnaceRecipes {
         RECIPES.put("minecraft:clay_ball", new FurnaceRecipeEntry("hbm:ball_fireclay", 1, 0, 0.5f));
         RECIPES.put("tfc:ceramics/unfired/fire_brick", new FurnaceRecipeEntry("hbm:ingot_firebrick", 1, 0, 0.5f));
         RECIPES.put("tfc:glass_shard", new FurnaceRecipeEntry("minecraft:glass", 1, 0.7f));
+        RECIPES.put("hbm:catalyst_clay", new FurnaceRecipeEntry("tfcnuclear:fired_catalyst_clay", 1, 0.7f));
 
         // OreDict рецепты
         addOreDictFurnaceRecipe("sand", "minecraft:glass", 1, 0.7f);

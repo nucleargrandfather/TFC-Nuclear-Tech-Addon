@@ -54,10 +54,6 @@ public abstract class MixinArcFurnaceRecipes {
         removeByOreDict("oreIron");
         removeByOreDict("oreCopper");
         removeByOreDict("oreLead");
-        removeByItemId("minecraft:gold_ingot");
-        removeByItemId("minecraft:gold_nugget");
-        removeByItemId("tfc:metal/ingot/bismuth");
-        removeByItemId("tfc:ore/bituminous_coal");
 
         // Добавляем рецепты для крицы
         addBloomRecipes();

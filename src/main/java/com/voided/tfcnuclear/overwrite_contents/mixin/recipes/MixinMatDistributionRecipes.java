@@ -3,8 +3,10 @@ package com.voided.tfcnuclear.overwrite_contents.mixin.recipes;
 import com.hbm.inventory.RecipesCommon;
 import com.hbm.inventory.material.MatDistribution;
 import com.hbm.inventory.material.Mats;
+import com.hbm.items.ModItems;
 import com.voided.tfcnuclear.inventory.material.TFCNuclearMats;
-import net.dries007.tfc.objects.items.ItemBloom;
+import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.Loader;
@@ -14,6 +16,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -26,21 +29,80 @@ import static com.voided.tfcnuclear.inventory.material.TFCNuclearMats.MAT_MAGNET
 @Mixin(value = MatDistribution.class, remap = false)
 public class MixinMatDistributionRecipes {
 
+    private static final String[] ORES_TO_REMOVE = {
+            "oreIron", "oreGold", "oreCoal", "oreRedstone",
+            "oreCopper", "oreAluminum", "oreLead",
+            "oreHematite", "oreMalachite",
+            "oreTitanium", "oreTungsten", "oreUranium",
+            "oreThorium", "oreBeryllium", "oreCobalt"
+    };
+
     @Inject(method = "registerDefaults", at = @At("RETURN"))
     private void onRegisterDefaults(CallbackInfo ci) {
         if (!Loader.isModLoaded("tfc")) {
             return;
         }
 
+        // Удаляем предметы из materialEntries
+        removeItemRecipes(
+                new ItemStack(Items.MINECART),
+                new ItemStack(Item.getByNameOrId("hbm:stamp_iron_flat")),
+                new ItemStack(Blocks.RAIL),
+                new ItemStack(Blocks.DETECTOR_RAIL),
+                new ItemStack(Blocks.GOLDEN_RAIL),
+                new ItemStack(ModItems.stamp_iron_flat)
+        );
+
+        // Удаляем рудные рецепты из materialOreEntries
         removeDefaultOreRecipes();
 
+        // Добавляем TFC рецепты
         addTFCOreRecipes();
-
         addBloomRecipe();
-
         addTFCMetalRecipes();
     }
 
+    /**
+     * Удаление рецептов по ItemStack с полной очисткой
+     */
+    private void removeItemRecipes(ItemStack... stacksToRemove) {
+        try {
+            Field materialEntriesField = Mats.class.getDeclaredField("materialEntries");
+            materialEntriesField.setAccessible(true);
+            Map<RecipesCommon.ComparableStack, List<Mats.MaterialStack>> materialEntries =
+                    (Map<RecipesCommon.ComparableStack, List<Mats.MaterialStack>>) materialEntriesField.get(null);
+
+            if (materialEntries == null) return;
+
+            // Создаем список для удаления
+            List<RecipesCommon.ComparableStack> toRemove = new ArrayList<>();
+
+            for (Map.Entry<RecipesCommon.ComparableStack, List<Mats.MaterialStack>> entry : materialEntries.entrySet()) {
+                RecipesCommon.ComparableStack currentStack = entry.getKey();
+
+                // Проверяем каждый предмет из списка на удаление
+                for (ItemStack targetStack : stacksToRemove) {
+                    if (targetStack == null || targetStack.getItem() == null) continue;
+
+                    // Сравниваем по item и мета-данным (без NBT)
+                    if (currentStack.item == targetStack.getItem() &&
+                            currentStack.meta == targetStack.getItemDamage()) {
+                        toRemove.add(currentStack);
+                        break;
+                    }
+                }
+            }
+
+            // Удаляем все найденные рецепты
+            for (RecipesCommon.ComparableStack stack : toRemove) {
+                materialEntries.remove(stack);
+                System.out.println("[TFC Nuclear] Removed recipe for: " + stack.item.getRegistryName());
+            }
+
+        } catch (NoSuchFieldException | IllegalAccessException e) {
+            System.err.println("[TFC Nuclear] Failed to remove item recipes: " + e.getMessage());
+        }
+    }
 
     private void removeDefaultOreRecipes() {
         try {
@@ -49,38 +111,38 @@ public class MixinMatDistributionRecipes {
             Map<String, List<Mats.MaterialStack>> materialOreEntries =
                     (Map<String, List<Mats.MaterialStack>>) materialOreEntriesField.get(null);
 
-            String[] oresToRemove = {
-                    "oreIron", "oreGold", "oreCoal", "oreRedstone",
-                    "oreCopper", "oreAluminum", "oreLead",
-                    "oreHematite", "oreMalachite",
-                    "oreTitanium", "oreTungsten", "oreUranium",
-                    "oreThorium", "oreBeryllium", "oreCobalt"
-            };
+            if (materialOreEntries == null) return;
 
-            Iterator<Map.Entry<String, List<Mats.MaterialStack>>> iterator = materialOreEntries.entrySet().iterator();
-            int removed = 0;
+            // Создаем список ключей для удаления
+            List<String> toRemove = new ArrayList<>();
 
-            while (iterator.hasNext()) {
-                Map.Entry<String, List<Mats.MaterialStack>> entry = iterator.next();
+            for (Map.Entry<String, List<Mats.MaterialStack>> entry : materialOreEntries.entrySet()) {
                 String key = entry.getKey();
 
-                for (String targetKey : oresToRemove) {
-                    if (key.equals(targetKey)) {
-                        iterator.remove();
-                        removed++;
+                // Проверяем все ключи на удаление
+                for (String targetKey : ORES_TO_REMOVE) {
+                    if (key.equals(targetKey) || key.startsWith(targetKey)) {
+                        toRemove.add(key);
                         break;
                     }
                 }
             }
 
+            // Удаляем все найденные рецепты
+            for (String key : toRemove) {
+                materialOreEntries.remove(key);
+                System.out.println("[TFC Nuclear] Removed ore recipe for: " + key);
+            }
+
         } catch (NoSuchFieldException | IllegalAccessException e) {
+            System.err.println("[TFC Nuclear] Failed to remove ore recipes: " + e.getMessage());
         }
     }
 
     // ========== Рецепты для TFC руд ==========
 
     private void addTFCOreRecipes() {
-
+        // Ваши рецепты остаются без изменений
         MatDistribution.registerOre("oreNormalHematite", MAT_HEMATITE, QUANTUM.q(18));
         MatDistribution.registerOre("oreRichHematite", MAT_HEMATITE, QUANTUM.q(26));
         MatDistribution.registerOre("orePoorHematite", MAT_HEMATITE, QUANTUM.q(12));
@@ -151,7 +213,6 @@ public class MixinMatDistributionRecipes {
         MatDistribution.registerOre("orePoorMolybdenum", TFCNuclearMats.MAT_MOLYBDENUM, QUANTUM.q(12));
         MatDistribution.registerOre("oreSmallMolybdenum", TFCNuclearMats.MAT_MOLYBDENUM, QUANTUM.q(8));
 
-        MatDistribution.registerOre("ironFlatStamp", MAT_WROUGHTIRON, INGOT.q(3));
         MatDistribution.registerOre("tfcCryolite", MAT_ALUMINIUM, QUANTUM.q(72), MAT_SODIUM, NUGGET.q(3), MAT_STONE, INGOT.q(1));
         MatDistribution.registerOre("tfcCoal", MAT_CARBON, INGOT.q(3), MAT_STONE, INGOT.q(1));
         MatDistribution.registerOre("tfcRedstone", MAT_REDSTONE, INGOT.q(4), MAT_STONE, INGOT.q(1));
@@ -161,10 +222,9 @@ public class MixinMatDistributionRecipes {
         Item bloomItem = Item.getByNameOrId("tfc:bloom/refined");
         if (bloomItem == null) return;
 
-        // Используем registerEntry для регистрации предмета
         MatDistribution.registerEntry(
                 bloomItem,
-                MAT_WROUGHTIRON, QUANTUM.q(72)  // 100 TFC = 72 HBM кванта (заглушка для JEI)
+                MAT_WROUGHTIRON, QUANTUM.q(72)
         );
     }
 

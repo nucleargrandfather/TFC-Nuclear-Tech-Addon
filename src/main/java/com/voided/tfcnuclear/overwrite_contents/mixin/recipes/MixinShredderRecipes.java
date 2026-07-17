@@ -53,6 +53,7 @@ public abstract class MixinShredderRecipes {
             "hbm:ore_gneiss_copper",
             "hbm:ore_gneiss_gold",
             "hbm:stone_resource",
+            "hbm:crystal_trixite",
 
             "tfc:metal/ingot/bronze",
             "tfc:metal/ingot/black_bronze",

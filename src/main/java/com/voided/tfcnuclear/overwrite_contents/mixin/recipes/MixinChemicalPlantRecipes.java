@@ -9,7 +9,9 @@ import com.hbm.inventory.recipes.ChemicalPlantRecipes;
 import com.hbm.inventory.recipes.loader.GenericRecipe;
 import com.hbm.inventory.recipes.loader.GenericRecipes;
 import com.hbm.items.ModItems;
+import com.voided.tfcnuclear.compat.hbm.SlagStack;
 import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import org.spongepowered.asm.mixin.Mixin;
@@ -28,12 +30,6 @@ public abstract class MixinChemicalPlantRecipes extends GenericRecipes<GenericRe
     @Inject(method = "registerDefaults", at = @At("RETURN"))
     private void onRegisterDefaults(CallbackInfo ci) {
 
-        com.hbm.inventory.fluid.FluidType limewater = Fluids.fromName("LIMEWATER");
-
-        if (limewater == Fluids.NONE) {
-            System.out.println("[TFC Nuclear] ОШИБКА: LIMEWATER не найдена в HBM!");
-            return;
-        }
 
         ChemicalPlantRecipes.INSTANCE.removeRecipeByName("chem.aggregate");
         ChemicalPlantRecipes.INSTANCE.removeRecipeByName("chem.concrete");
@@ -69,10 +65,39 @@ public abstract class MixinChemicalPlantRecipes extends GenericRecipes<GenericRe
         this.register(new GenericRecipe("chem.limewater").setup(200, 100)
                 .inputItems(new RecipesCommon.OreDictStack("dustFlux", 1))
                 .inputFluids(new FluidStack(Fluids.WATER, 500))
-                .outputFluids(new FluidStack(limewater, 500)));
+                .outputFluids(new FluidStack(Fluids.fromName("LIMEWATER"), 500)));
         this.register(new GenericRecipe("chem.mortar").setup(120, 100)
                 .inputItems(new RecipesCommon.OreDictStack("sand", 1))
-                .inputFluids(new FluidStack(limewater, 100))
+                .inputFluids(new FluidStack(Fluids.fromName("LIMEWATER"), 100))
                 .outputItems(new ItemStack(Item.getByNameOrId("tfc:mortar"), 16)));
+        this.register(new GenericRecipe("chem.AACS").setup(120, 100)
+                .inputItems(new RecipesCommon.ComparableStack(Items.CLAY_BALL, 1),
+                            new RecipesCommon.ComparableStack(Item.getByNameOrId("tfc:powder/kaolinite")))
+                .inputFluids(new FluidStack(Fluids.SULFURIC_ACID, 100))
+                .outputFluids(new FluidStack(Fluids.fromName("AACS"), 200)));
+        this.register(new GenericRecipe("chem.IS_1").setup(120, 100)
+                .inputItems(new SlagStack(new ItemStack(com.voided.tfcnuclear.inventory.items.ModItems.LIMONITE_SLAG, 1), 100))
+                .inputFluids(new FluidStack(Fluids.SULFURIC_ACID, 100))
+                .outputFluids(new FluidStack(Fluids.fromName("IS"), 300)));
+        this.register(new GenericRecipe("chem.IS_2").setup(120, 100)
+                .inputItems(new SlagStack(new ItemStack(com.voided.tfcnuclear.inventory.items.ModItems.HEMATITE_SLAG, 1), 100))
+                .inputFluids(new FluidStack(Fluids.SULFURIC_ACID, 100))
+                .outputFluids(new FluidStack(Fluids.fromName("IS"), 300)));
+        this.register(new GenericRecipe("chem.IS_3").setup(120, 100)
+                .inputItems(new SlagStack(new ItemStack(com.voided.tfcnuclear.inventory.items.ModItems.MAGNETITE_SLAG, 1), 100))
+                .inputFluids(new FluidStack(Fluids.SULFURIC_ACID, 100))
+                .outputFluids(new FluidStack(Fluids.fromName("IS"), 300)));
+        this.register(new GenericRecipe("chem.GS").setup(120, 100)
+                .inputItems(new SlagStack(new ItemStack(com.voided.tfcnuclear.inventory.items.ModItems.GOLD_SLAG, 1), 100))
+                .inputFluids(new FluidStack(Fluids.SULFURIC_ACID, 100))
+                .outputFluids(new FluidStack(Fluids.fromName("GS"), 300)));
+        this.register(new GenericRecipe("chem.CS").setup(120, 100)
+                .inputItems(new SlagStack(new ItemStack(com.voided.tfcnuclear.inventory.items.ModItems.COPPER_SLAG, 1), 100))
+                .inputFluids(new FluidStack(Fluids.SULFURIC_ACID, 100))
+                .outputFluids(new FluidStack(Fluids.fromName("CS"), 300)));
+        this.register(new GenericRecipe("chem.LS").setup(120, 100)
+                .inputItems(new SlagStack(new ItemStack(com.voided.tfcnuclear.inventory.items.ModItems.GALENA_SLAG, 1), 100))
+                .inputFluids(new FluidStack(Fluids.SULFURIC_ACID, 100))
+                .outputFluids(new FluidStack(Fluids.fromName("LS"), 300)));
     }
 }

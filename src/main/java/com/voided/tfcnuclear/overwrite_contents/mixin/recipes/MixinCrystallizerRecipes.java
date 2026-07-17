@@ -60,7 +60,7 @@ public abstract class MixinCrystallizerRecipes {
 
         // Дополнительные руды из HBM
         String[] hbmOres = {
-                "oreSaltpeter", "oreSulfur", "oreCopper", "oreLead", "oreAluminum"
+                "oreSaltpeter", "oreSulfur", "oreCopper", "oreLead", "oreAluminum", "oreTrixite"
         };
 
         // Удаляем все руды
@@ -71,6 +71,7 @@ public abstract class MixinCrystallizerRecipes {
             removeByOreDict(ore);
         }
         removeByOutput("minecraft:diamond");
+        removeByOutput("hbm:crystal_trixite");
 
     }
 
@@ -86,7 +87,6 @@ public abstract class MixinCrystallizerRecipes {
         registerRecipe("tfcCryolite",     new CrystallizerRecipe(ModItems.crystal_aluminium, baseTime).prod(0.05F));
         registerRecipe("tfcSulfur",       new CrystallizerRecipe(ModItems.crystal_sulfur, baseTime).prod(0.05F));
         registerRecipe("tfcCoal",         new CrystallizerRecipe(ModItems.crystal_coal, baseTime).prod(0.05F));
-        registerRecipe("tfcKimberlite",   new CrystallizerRecipe(ModItems.crystal_diamond, baseTime).prod(0.05F));
         registerRecipe("cobblestone",     new CrystallizerRecipe(ModBlocks.reinforced_stone, baseTime).prod(0.05F));
     }
 

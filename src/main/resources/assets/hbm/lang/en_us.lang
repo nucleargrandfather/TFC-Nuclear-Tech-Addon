@@ -1,2 +1,11 @@
 hbmmat.iron=Raw Iron
 hbmfluid.limewater=Limewater
+hbmfluid.aacs=Acid-activated Clay Slurry
+hbmfluid.is=Iron Sulfate
+hbmfluid.gs=Gold Sulfate
+hbmfluid.ls=Lead Sulfate
+hbmfluid.cs=Copper Sulfate
+item.hbm_stamp_wrought_iron_flat=Flat Stamp (Wrought Iron)
+item.hbm_stamp_wrought_iron_plate=Plate Stamp (Wrought Iron)
+item.hbm_stamp_wrought_iron_wire=Wire Stamp (Wrought Iron)
+item.hbm_stamp_wrought_iron_circuit=Circuit Stamp (Wrought Iron)
